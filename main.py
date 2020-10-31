@@ -3,6 +3,7 @@ import bs4
 from bs4 import BeautifulSoup as soup
 import scraper
 import requests
+from datetime import date
 
 PUZZLE_URL = "https://www.nytimes.com/crosswords/game/mini/"
 
@@ -17,6 +18,11 @@ def showDownClues(dwClues,dwIndexes):
     for i in range(len(dwClues)):
         print("", dwIndexes[i].text, " ", dwClues[i].text)
     print()
+
+def getDate():
+    today = str(date.today())
+    return today
+
     
 
 
@@ -35,6 +41,8 @@ def main():
     showAcrossClues(acrossClues,acrossIndexes)
     showDownClues(downClues,downIndexes)
 
+    print(getDate())
+    
 
 
 
