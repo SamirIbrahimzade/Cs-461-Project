@@ -1,39 +1,39 @@
 from urllib.request import urlopen as urlRequest
 import bs4
 from bs4 import BeautifulSoup as soup
+import scraper
+import requests
 
-print("Cs 461 project")
+PUZZLE_URL = "https://www.nytimes.com/crosswords/game/mini/"
+
+def showAcrossClues(acClues,acIndexes):
+    print("Printing across clues")
+    for i in range(len(acClues)):
+        print("", acIndexes[i].text, " ", acClues[i].text)
+    print()
+
+def showDownClues(dwClues,dwIndexes):
+    print("Printing across clues")
+    for i in range(len(dwClues)):
+        print("", dwIndexes[i].text, " ", dwClues[i].text)
+    print()
+    
+
 
 def main():
 
-    puzzleURL = "https://www.nytimes.com/crosswords/game/mini/"
+    pageContent = scraper.getPageContent(PUZZLE_URL) # getting everything from website
+    pageParsed = scraper.parseContent(pageContent) # page content is parsed
 
-    urlClient = urlRequest(puzzleURL)
-    pageString = urlClient.read()       # getting everything from website
-    urlClient.close()
+    #get clues and indexes
+    clues = scraper.getAllOl(pageParsed,"ClueList-list--2dD5-") # found all clue container
+    acrossClues = scraper.getAllSpan(clues[0],"Clue-text--3lZl7") # found all across clues
+    acrossIndexes = scraper.getAllSpan(clues[0],"Clue-label--2IdMY")  # found all across clue indexes
+    downClues = scraper.getAllSpan(clues[1],"Clue-text--3lZl7") # found all down clues
+    downIndexes = scraper.getAllSpan(clues[1],"Clue-label--2IdMY")  # found all down clue indexes
 
-    pageParsed = soup(pageString, "html.parser")    # page content is parsed
-
-    clues = pageParsed.findAll("ol", {"class":"ClueList-list--2dD5-"})      # found all clue containers
-
-    acrossClues = clues[0].findAll("span", {"class":"Clue-text--3lZl7"})    # found all across clues
-    acrossIndexes = clues[0].findAll("span", {"class": "Clue-label--2IdMY"})  # found all across clue indexes
-
-    downClues = clues[1].findAll("span", {"class":"Clue-text--3lZl7"})      # found all down clues
-    downIndexes = clues[1].findAll("span", {"class":"Clue-label--2IdMY"})   # found all down clue indexes
-
-
-    print("Printing across clues")
-    for i in range(len(acrossClues)):
-        print("", acrossIndexes[i].text, " ", acrossClues[i].text)
-    print()
-
-    print("Printing down clues")
-    for i in range(len(downClues)):
-        print("", downIndexes[i].text, " ", downClues[i].text)
-
-    return 0
-
+    showAcrossClues(acrossClues,acrossIndexes)
+    showDownClues(downClues,downIndexes)
 
 
 
