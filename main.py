@@ -168,9 +168,7 @@ def main():
             print (matrix[rowNo, j].letter, end = "")
         print("")
 
-    
-    puzzleGrid.create_line(0, 0, 0, 500, fill="#476042", width=2)
-    puzzleGrid.create_line(0, 0, 500, 0, fill="#476042", width=2)
+   
 
     mainloop()
 
