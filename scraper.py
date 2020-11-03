@@ -58,7 +58,7 @@ def getAnswers():
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/span").click()
 
     html = driver.page_source
-    soup = BeautifulSoup (html)
+    soup = BeautifulSoup (html, "html.parser")
 
     clueler =  soup.find("div", {"class": "layout"}).find("article", {"aria-label" : "Main Puzzle Layout"}).findAll("section")[2]
 
