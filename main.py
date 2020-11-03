@@ -5,9 +5,15 @@ import scraper
 import requests
 from datetime import date
 from datetime import datetime
-
+from selenium import webdriver
+from selenium.webdriver.common.keys import Keys
 from tkinter import *
 #import Tkinter as Tk
+
+class matrix_cell:
+    def __init__(self, number, letter):
+        self.number = number
+        self.letter = letter
 
 PUZZLE_URL = "https://www.nytimes.com/crosswords/game/mini/"
 PUZZLE_SIDE_LENGTH = 100
@@ -46,6 +52,21 @@ def addDownCluesCnv(canvas,dwClues,dwIndexes):
          L.pack()
     print()
 
+def findCellWithNoReturnCol( matrix, x ):
+
+    for i in range(0,5):
+        for j in range (0,5):
+            if matrix[i,j].number == x:
+                return j
+
+def findCellWithNoReturnRow(matrix,  x ):
+
+    for i in range(0,5):
+        for j in range (0,5):
+            if matrix[i,j].number == x:
+                return i
+
+
     
 
 
@@ -69,6 +90,8 @@ def main():
 
     #GUI part
     master = Tk()
+    master.configure(background='blue')
+
 
     #puzzle canvas
     puzzleGrid = Canvas(master, width=7*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
@@ -79,20 +102,23 @@ def main():
     # clues canvas
     cluesCnv = Canvas(master, width=300, height=300)
     cluesCnv.pack(side = "right",padx=15,pady=15)
-   
+
+    matrix, across_clue, horiz_clue = scraper.getAnswers()
+
+    
     #drawing the grid    
     for i in range(0, 5):
 
         for j in range(0, 5):
 
             #add label inside boxes
-            if(puzzle[j][i] != 0):
-                L = Label(puzzleGrid, text=str(puzzle[j][i])).place(x = i*100+5,  y = j*100+5) 
+            if(matrix[i,j].number != 0 and matrix[i,j].number != -8):
+                L = Label(puzzleGrid, text=str(matrix[i,j].number)).place(x = j*100+5,  y = i*100+5) 
             
-            if(puzzle[j][i] != 0):
-                L = Label(puzzleGrid, text=str(answers[j][i]),font = "Times").place(x = i*100+50,  y = j*100+50) 
+            #if(matrix[i,j].number != -8):
+            #    L = Label(puzzleGrid, text=str(answers[j][i]),font = "Times").place(x = i*100+50,  y = j*100+50)
             
-            if (puzzle[i][j]==0):
+            if (matrix[i,j].number==-8):
                 puzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*100+100, i*100+100, fill="black")
                 
             
@@ -114,6 +140,30 @@ def main():
     #add clues to the canvas
     addAcrossCluesCnv(cluesCnv,acrossClues,acrossIndexes)
     addDownCluesCnv(cluesCnv,downClues,downIndexes)
+
+    
+   
+    
+
+    for i in range (len(across_clue)):
+        print(across_clue[i].getText(), end=" ---> ")
+        colNo = findCellWithNoReturnCol(matrix,across_clue[i].getText()[0])
+        for j in range(0,5):
+            #L = Label(puzzleGrid, text=str(matrix[j,colNo].letter),font = "Times").place(x = i*100+50,  y = j*100+50)
+            print( matrix[j,colNo].letter, " ",i," " )
+        print("")
+    
+    print("\ndown\n")
+
+    for i in range (len(horiz_clue)):
+        print(horiz_clue[i].getText(), end=" ---> ")
+        rowNo = findCellWithNoReturnRow(matrix,horiz_clue[i].getText()[0])
+         
+        for j in range(0,5):
+            if(str(matrix[rowNo, j].letter) != " "):
+                L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times").place(x = j*100+50,  y = i*100+50)
+            print (matrix[rowNo, j].letter, end = "")
+        print("")
 
 
     mainloop()
