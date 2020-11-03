@@ -124,13 +124,16 @@ def main():
             
                 
 
+    puzzleGrid.create_line(2, 0, 2, 500, fill="black", width=2)
+    puzzleGrid.create_line(0, 2, 500, 2, fill="black", width=2)
+
     #Creates all vertical lines at intervals of PUZZLE_SIDE_LENGTH
-    for i in range(0, 6, 1):
+    for i in range(1, 6, 1):
         puzzleGrid.create_line([(i*100, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
 
     # Creates all horizontal lines at intervals of PUZZLE_SIDE_LENGTH
-    for i in range(0, 6, 1):
+    for i in range(1, 6, 1):
         puzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
     timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 510,  y = 460)
@@ -165,6 +168,9 @@ def main():
             print (matrix[rowNo, j].letter, end = "")
         print("")
 
+    
+    puzzleGrid.create_line(0, 0, 0, 500, fill="#476042", width=2)
+    puzzleGrid.create_line(0, 0, 500, 0, fill="#476042", width=2)
 
     mainloop()
 
