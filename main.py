@@ -39,7 +39,7 @@ def addAcrossCluesCnv(canvas, acClues, acIndexes):
     L.pack()
     
     for i in range(len(acClues)):
-         L = Label(canvas, text=acIndexes[i].text + " " + acClues[i].text)
+         L = Label(canvas, text=acIndexes[i].text + ") " + acClues[i].text)
          L.pack()
     print()
 
@@ -48,7 +48,7 @@ def addDownCluesCnv(canvas,dwClues,dwIndexes):
     L.pack()
 
     for i in range(len(dwClues)):
-         L = Label(canvas, text=dwIndexes[i].text + " " + dwClues[i].text) 
+         L = Label(canvas, text=dwIndexes[i].text + ") " + dwClues[i].text)
          L.pack()
     print()
 
@@ -113,7 +113,7 @@ def main():
 
             #add label inside boxes
             if(matrix[i,j].number != 0 and matrix[i,j].number != -8):
-                L = Label(puzzleGrid, text=str(matrix[i,j].number)).place(x = j*100+5,  y = i*100+5) 
+                L = Label(puzzleGrid, text=str(matrix[i,j].number), font = "Times 12").place(x = j*100+5,  y = i*100+5)
             
             #if(matrix[i,j].number != -8):
             #    L = Label(puzzleGrid, text=str(answers[j][i]),font = "Times").place(x = i*100+50,  y = j*100+50)
@@ -127,13 +127,13 @@ def main():
     #Creates all vertical lines at intervals of PUZZLE_SIDE_LENGTH
     for i in range(0, 6, 1):
         puzzleGrid.create_line([(i*100, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
-        
+
 
     # Creates all horizontal lines at intervals of PUZZLE_SIDE_LENGTH
     for i in range(0, 6, 1):
         puzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
-    
-    timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 510,  y = 460) 
+
+    timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 510,  y = 460)
     #timeLabel.pack()
 
 
@@ -161,7 +161,7 @@ def main():
          
         for j in range(0,5):
             if(str(matrix[rowNo, j].letter) != " "):
-                L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times").place(x = j*100+50,  y = i*100+50)
+                L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*100+25,  y = i*100+20)
             print (matrix[rowNo, j].letter, end = "")
         print("")
 

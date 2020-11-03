@@ -46,15 +46,16 @@ def getAllOl(getFrom,className):
 
 def getAnswers():
     driver.get("https://www.nytimes.com/crosswords/game/mini")
-    time.sleep(1)
+    sleepTime = 1
+    time.sleep(sleepTime)
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div[2]/div[3]/div/article/div[2]/button/div/span").click()
-    time.sleep(1)
+    time.sleep(sleepTime)
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div/ul/div[2]/li[2]/button").click()
-    time.sleep(1)
+    time.sleep(sleepTime)
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div/ul/div[2]/li[2]/ul/li[3]/a").click()
-    time.sleep(1)
+    time.sleep(sleepTime)
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/article/div[2]/button[2]/div/span").click()
-    time.sleep(1)
+    time.sleep(sleepTime)
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/span").click()
 
     html = driver.page_source
