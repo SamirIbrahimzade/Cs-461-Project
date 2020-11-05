@@ -21,13 +21,13 @@ class matrix_cell:
 
 
 def getPageContent(url):
-
+    print("Requesting page content from " + url)
     pageContent = requests.get(url)
 
     return pageContent
 
 def parseContent(pageContent):
-
+    print("Parsing the retrived page content with BeatifulSoup ")
     page = BeautifulSoup(pageContent.content, "html.parser")
 
     return page 
@@ -39,25 +39,43 @@ def getAllSpan(getFrom,className):
     return result
 
 def getAllOl(getFrom,className):
-
+    print("Detecting all clue containers ")
     result = getFrom.findAll("ol", {"class": className})     
 
     return result
 
 def getAnswers():
+
     driver.get("https://www.nytimes.com/crosswords/game/mini")
-    sleepTime = 1
+    sleepTime = 5
+    print("Connected to the https://www.nytimes.com/crosswords/game/mini")
+    print("Waiting time between requests is " + str(sleepTime) + " seconds")
+    print("Waiting " + str(sleepTime) + " seconds")
     time.sleep(sleepTime)
+    print("----------------Clicking to the OK button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div[2]/div[3]/div/article/div[2]/button/div/span").click()
+
+    print("Waiting " + str(sleepTime) + " seconds")
     time.sleep(sleepTime)
+    print("----------------Clicking to the REVEAL button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div/ul/div[2]/li[2]/button").click()
+
+    print("Waiting " + str(sleepTime) + " seconds")
     time.sleep(sleepTime)
+    print("----------------Clicking to the PUZZLE button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div/ul/div[2]/li[2]/ul/li[3]/a").click()
+    
+    print("Waiting " + str(sleepTime) + " seconds")
     time.sleep(sleepTime)
+    print("----------------Clicking to the REVEAL button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/article/div[2]/button[2]/div/span").click()
+
+    print("Waiting " + str(sleepTime) + " seconds")
     time.sleep(sleepTime)
+    print("----------------Clicking to the CLOSE POP UP button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/span").click()
 
+    print("Retrieving and parsing the html including the answers")
     html = driver.page_source
     soup = BeautifulSoup (html, "html.parser")
 
@@ -96,6 +114,8 @@ def getAnswers():
                 matrix[i,j] = matrix_cell(gler[x].getText()[0], gler[x].getText()[1])
 
             x += 1 
-
+    
     driver.quit()
+    print("Closed the web browser driver")
+    print("Returning the answers")
     return matrix, across_clue, horiz_clue

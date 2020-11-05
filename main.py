@@ -31,6 +31,7 @@ def showDownClues(dwClues,dwIndexes):
     print()
 
 def getDate():
+    print("Retrieving current date and time of the system ")
     today = str(datetime.now().strftime('%Y-%m-%d %H:%M:%S'))
     return today
 
@@ -78,35 +79,43 @@ def main():
     #get clues and indexes
     clues = scraper.getAllOl(pageParsed,"ClueList-list--2dD5-") # found all clue container
     acrossClues = scraper.getAllSpan(clues[0],"Clue-text--3lZl7") # found all across clues
+    print("Detected all across clues ")
     acrossIndexes = scraper.getAllSpan(clues[0],"Clue-label--2IdMY")  # found all across clue indexes
+    print("Detected all across clue indexes ")
     downClues = scraper.getAllSpan(clues[1],"Clue-text--3lZl7") # found all down clues
+    print("Detected all down clue indexes ")
     downIndexes = scraper.getAllSpan(clues[1],"Clue-label--2IdMY")  # found all down clue indexes
-
+    print("Detected all down clue indexes ")
+    print()
     showAcrossClues(acrossClues,acrossIndexes)
     showDownClues(downClues,downIndexes)
+    print("Retrieved date and time is " + getDate())
 
-    print(getDate())
-
-
+    print("Drawing the gui")
     #GUI part
     master = Tk()
-    master.configure(background='blue')
+    master.configure(background='gray')
 
 
     #puzzle canvas
+    print("Creating the puzzle canvas")
     puzzleGrid = Canvas(master, width=7*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
     puzzleGrid.pack(side="left",padx=15,pady=15)
     answers = [['a','b','c','d','e'],['f','g','h','i','j'],['k','l','m','n','o'],['p','q','r','s','t'],['u','v','w','x','y']]
     puzzle = [[11, 12, 5, 2, 0], [0, 15, 6, 10, 0], [10, 0, 12, 5, 2], [12, 15, 8, 6, 1], [5, 0, 9, 5, 2]]
-
+        
     # clues canvas
+    print("Creating the clue canvas")
     cluesCnv = Canvas(master, width=300, height=300)
     cluesCnv.pack(side = "right",padx=15,pady=15)
 
+    print()
+    print("Starting the process of retrieving answers !")
     matrix, across_clue, horiz_clue = scraper.getAnswers()
 
-    
+    print()
     #drawing the grid    
+    print("Drawing the grid of the puzzle and filling the black squares")
     for i in range(0, 5):
 
         for j in range(0, 5):
@@ -136,17 +145,18 @@ def main():
     for i in range(1, 6, 1):
         puzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
+    print("Printing the time label to the gui")
     timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 510,  y = 460)
     #timeLabel.pack()
 
-
+    print("Adding clues to the canvas")
     #add clues to the canvas
     addAcrossCluesCnv(cluesCnv,acrossClues,acrossIndexes)
     addDownCluesCnv(cluesCnv,downClues,downIndexes)
 
     
    
-    
+    print("Printing answers to the both gui and terminal")
 
     for i in range (len(across_clue)):
         print(across_clue[i].getText(), end=" ---> ")
@@ -169,7 +179,6 @@ def main():
         print("")
 
    
-
     mainloop()
 
     
