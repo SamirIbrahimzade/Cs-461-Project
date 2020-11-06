@@ -158,16 +158,16 @@ def main():
    
     print("Printing answers to the both gui and terminal")
 
+    print("Across")
     for i in range (len(across_clue)):
         print(across_clue[i].getText(), end=" ---> ")
         colNo = findCellWithNoReturnCol(matrix,across_clue[i].getText()[0])
         for j in range(0,5):
             #L = Label(puzzleGrid, text=str(matrix[j,colNo].letter),font = "Times").place(x = i*100+50,  y = j*100+50)
-            print( matrix[j,colNo].letter, " ",i," " )
+            print( matrix[j,colNo].letter, end = "" )
         print("")
     
-    print("\ndown\n")
-
+    print("\nDown")
     for i in range (len(horiz_clue)):
         print(horiz_clue[i].getText(), end=" ---> ")
         rowNo = findCellWithNoReturnRow(matrix,horiz_clue[i].getText()[0])

@@ -5,12 +5,11 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.chrome.options import Options
 import time
 
-
 DRIVER_PATH = 'chromedriver.exe'
 
 options = Options()
 #options.headless = True
-options.add_argument("--window-size=1920,1200")
+options.add_argument("--window-size=1800,1200")
 
 driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
@@ -47,11 +46,13 @@ def getAllOl(getFrom,className):
 def getAnswers():
 
     driver.get("https://www.nytimes.com/crosswords/game/mini")
-    sleepTime = 5
+    sleepTime = 1.5
     print("Connected to the https://www.nytimes.com/crosswords/game/mini")
     print("Waiting time between requests is " + str(sleepTime) + " seconds")
     print("Waiting " + str(sleepTime) + " seconds")
+
     time.sleep(sleepTime)
+
     print("----------------Clicking to the OK button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div/div[4]/div/main/div[2]/div/div[2]/div[3]/div/article/div[2]/button/div/span").click()
 
@@ -71,7 +72,7 @@ def getAnswers():
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/article/div[2]/button[2]/div/span").click()
 
     print("Waiting " + str(sleepTime) + " seconds")
-    time.sleep(sleepTime)
+    time.sleep(sleepTime*2)
     print("----------------Clicking to the CLOSE POP UP button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/span").click()
 
