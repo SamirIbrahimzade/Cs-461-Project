@@ -188,6 +188,9 @@ def main():
     scraper.closeDriver()
 
     resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
+
+    resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
     print("Result",resGoogle)
+    print("Result",resDataMuse)
 
 main()
