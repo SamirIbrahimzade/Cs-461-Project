@@ -2,6 +2,7 @@ from urllib.request import urlopen as urlRequest
 import bs4
 from bs4 import BeautifulSoup as soup
 import scraper
+import search
 import requests
 from datetime import date
 from datetime import datetime
@@ -91,6 +92,8 @@ def main():
     showDownClues(downClues,downIndexes)
     print("Retrieved date and time is " + getDate())
 
+
+    '''
     print("Drawing the gui")
     #GUI part
     master = Tk()
@@ -177,12 +180,14 @@ def main():
                 L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*100+25,  y = i*100+20)
             print (matrix[rowNo, j].letter, end = "")
         print("")
+    
 
    
     mainloop()
+    '''
+    scraper.closeDriver()
 
-    
-
-
+    resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
+    print("Result",resGoogle)
 
 main()

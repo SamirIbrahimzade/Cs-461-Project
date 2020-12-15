@@ -43,6 +43,9 @@ def getAllOl(getFrom,className):
 
     return result
 
+def closeDriver():
+    driver.quit()
+
 def getAnswers():
 
     driver.get("https://www.nytimes.com/crosswords/game/mini")
