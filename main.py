@@ -190,7 +190,10 @@ def main():
     resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
 
     resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
-    print("Result",resGoogle)
-    print("Result",resDataMuse)
+    resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
+
+    print("Result Google",resGoogle,"\n\n")
+    print("Result DataMuse",resDataMuse,"\n\n")
+    print("Result Merriam",resMerriam,"\n\n")
 
 main()

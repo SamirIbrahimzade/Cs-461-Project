@@ -1,6 +1,9 @@
 import requests
-
 from bs4 import BeautifulSoup
+import urllib, json
+import requests
+
+
 
 # define punctuation
 punctuations = '''0123456789çşığ!()-[]{};:'"\,<>./?@#$%^&*_~'''
@@ -83,5 +86,78 @@ def searchDataMuse(acClues,acIndexes,dnClues,dnIndexes):
         resList.append(tList)
     for i in range(len(resList)):
         resList[i] = list(filter(lambda x: len(x) <= 5, resList[i]))
+
+    return resList
+
+
+def searchMerriam(acClues,acIndexes,dnClues,dnIndexes):
+    
+    API_KEY = "dd09241d-bf89-4f78-8834-34dc6e0495c4"
+
+    #for clue in acClues:
+    #    print(clue.text.split())
+
+    resList = [[]]*(len(acClues)+len(dnClues))
+
+    ind = 0
+    for clue in acClues:
+        
+        words = clue.text.split()
+        rList = []
+
+        if(len(words) <= 3):
+            for word in words:
+
+                URL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/"
+                URL = URL + word + "?key="+API_KEY
+                
+                
+
+                try:
+                    response = requests.get(URL)
+                    #data = json.loads(response.read())
+                    #print(word, ind)
+                    #print (response.json()[0]['meta']['syns'][0])
+                    
+                    rList.append(response.json()[0]['meta']['syns'][0])
+                    #resList[ind].append(response.json()[0]['meta']['syns'][0])
+                    #print(rList,"\n\n")
+                except:
+                    pass
+            resList[ind] = rList
+
+            #print(rList,"\n",resList,'\n\n\n\n')
+        ind = ind + 1
+
+         
+    for clue in dnClues:
+        
+        words = clue.text.split()
+        rList = []
+
+        if(len(words) <= 3):
+            for word in words:
+
+                URL = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/"
+                URL = URL + word + "?key="+API_KEY
+                
+                
+
+                try:
+                    response = requests.get(URL)
+                    #data = json.loads(response.read())
+                    #print(word, ind)
+                    #print (response.json()[0]['meta']['syns'][0])
+                    
+                    rList.append(response.json()[0]['meta']['syns'][0])
+                    #resList[ind].append(response.json()[0]['meta']['syns'][0])
+                    #print(rList,"\n\n")
+                except:
+                    pass
+            resList[ind] = rList
+
+            #print(rList,"\n",resList,'\n\n\n\n')
+        ind = ind + 1
+    
 
     return resList
