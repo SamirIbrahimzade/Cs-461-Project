@@ -47,9 +47,10 @@ def closeDriver():
     driver.quit()
 
 def getAnswers():
-
+    # old https://www.nytimes.com/crosswords/game/mini/2016/06/01
+    # uptodate https://www.nytimes.com/crosswords/game/mini
     driver.get("https://www.nytimes.com/crosswords/game/mini")
-    sleepTime = 1.5
+    sleepTime = 0
     print("Connected to the https://www.nytimes.com/crosswords/game/mini")
     print("Waiting time between requests is " + str(sleepTime) + " seconds")
     print("Waiting " + str(sleepTime) + " seconds")

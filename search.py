@@ -11,6 +11,7 @@ punctuations = '''0123456789çşığ!()-[]{};:'"\,<>./?@#$%^&*_~'''
 
 
 def searchGoogle(acClues,acIndexes,dnClues,dnIndexes):
+
     resList = []
 
     for i in range(len(acClues)):
@@ -161,6 +162,7 @@ def searchMerriam(acClues,acIndexes,dnClues,dnIndexes):
     
 
     return resList
+
 
 
 def searchRevDict(acClues,dnClues):

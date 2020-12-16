@@ -68,8 +68,13 @@ def findCellWithNoReturnRow(matrix,  x ):
             if matrix[i,j].number == x:
                 return i
 
+# list to store answers to check length
+acrossInfo = []
+downInfo = []
 
-    
+acrossLengths = [0,0,0,0,0]
+downLengths = [0,0,0,0,0]
+
 
 
 def main():
@@ -93,7 +98,6 @@ def main():
     print("Retrieved date and time is " + getDate())
 
 
-    '''
     print("Drawing the gui")
     #GUI part
     master = Tk()
@@ -133,8 +137,6 @@ def main():
             if (matrix[i,j].number==-8):
                 puzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*100+100, i*100+100, fill="black")
                 
-            
-                
 
     puzzleGrid.create_line(2, 0, 2, 500, fill="black", width=2)
     puzzleGrid.create_line(0, 2, 500, 2, fill="black", width=2)
@@ -157,20 +159,21 @@ def main():
     addAcrossCluesCnv(cluesCnv,acrossClues,acrossIndexes)
     addDownCluesCnv(cluesCnv,downClues,downIndexes)
 
-    
-   
     print("Printing answers to the both gui and terminal")
 
-    print("Across")
+    print("Down")
     for i in range (len(across_clue)):
         print(across_clue[i].getText(), end=" ---> ")
         colNo = findCellWithNoReturnCol(matrix,across_clue[i].getText()[0])
         for j in range(0,5):
             #L = Label(puzzleGrid, text=str(matrix[j,colNo].letter),font = "Times").place(x = i*100+50,  y = j*100+50)
             print( matrix[j,colNo].letter, end = "" )
+            if(ord(matrix[j,colNo].letter) != 32):
+                downInfo.append((j,colNo))    # adding letters in answers if it's not whitespace to check length
+                downLengths[j] += 1
         print("")
     
-    print("\nDown")
+    print("\nAcross")
     for i in range (len(horiz_clue)):
         print(horiz_clue[i].getText(), end=" ---> ")
         rowNo = findCellWithNoReturnRow(matrix,horiz_clue[i].getText()[0])
@@ -179,25 +182,49 @@ def main():
             if(str(matrix[rowNo, j].letter) != " "):
                 L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*100+25,  y = i*100+20)
             print (matrix[rowNo, j].letter, end = "")
+            if(ord(matrix[rowNo, j].letter) != 32):
+                acrossInfo.append((rowNo, j)) # adding letters in answers if it's not whitespace to check length
+                acrossLengths[j] += 1
         print("")
-    
-
    
     mainloop()
-    '''
-    
-    resRevDict = search.searchRevDict(acrossClues,downClues)
+
+    print()
+
+    scraper.closeDriver()
+
+    #resRevDict = search.searchRevDict(acrossClues,downClues)
     resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
 
     resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
     resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
-    
-    print("Result RevDict",resRevDict,"\n\n")
+
+    #print("Result RevDict",resRevDict,"\n\n")
     print("Result Google",resGoogle,"\n\n")
     print("Result DataMuse",resDataMuse,"\n\n")
     print("Result Merriam",resMerriam,"\n\n")
-    
 
-    scraper.closeDriver()
+
+    print("google")
+    for i in range(len(resGoogle)):
+        print(resGoogle[i])
+
+    print("\n\ndatamuse")
+    for i in range(len(resDataMuse)):
+        print(resDataMuse[i])
+
+    print("\n\nmiriam")
+    for i in range(len(resMerriam)):
+        print(resMerriam[i])
+
+    print("datamuse ", resDataMuse[0] )
+
+    print("across index info", acrossInfo)
+    print("down index info", downInfo)
+
+    print("across lengths ", acrossLengths)
+    print("down lengths ", downLengths)
+
+
 
 main()
