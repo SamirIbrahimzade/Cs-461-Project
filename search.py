@@ -2,7 +2,7 @@ import requests
 from bs4 import BeautifulSoup
 import urllib, json
 import requests
-
+import scraper
 
 
 # define punctuation
@@ -161,3 +161,11 @@ def searchMerriam(acClues,acIndexes,dnClues,dnIndexes):
     
 
     return resList
+
+
+def searchRevDict(acClues,dnClues):
+    url = "https://reversedictionary.org/"
+    
+    resl = scraper.findInputPutKey(url, "query",acClues,dnClues)
+    
+    return resl

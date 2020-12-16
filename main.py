@@ -185,15 +185,19 @@ def main():
    
     mainloop()
     '''
-    scraper.closeDriver()
-
+    
+    resRevDict = search.searchRevDict(acrossClues,downClues)
     resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
 
     resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
     resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
-
+    
+    print("Result RevDict",resRevDict,"\n\n")
     print("Result Google",resGoogle,"\n\n")
     print("Result DataMuse",resDataMuse,"\n\n")
     print("Result Merriam",resMerriam,"\n\n")
+    
+
+    scraper.closeDriver()
 
 main()

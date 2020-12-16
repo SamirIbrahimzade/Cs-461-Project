@@ -8,7 +8,7 @@ import time
 DRIVER_PATH = 'chromedriver.exe'
 
 options = Options()
-#options.headless = True
+options.headless = True
 options.add_argument("--window-size=1800,1200")
 
 driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
@@ -123,3 +123,61 @@ def getAnswers():
     print("Closed the web browser driver")
     print("Returning the answers")
     return matrix, across_clue, horiz_clue
+
+def findInputPutKey(getUrl, inputId,acClues,dnClues):
+
+    driver.get(getUrl)
+    resList = [[]]*(len(acClues)+len(dnClues))
+    
+
+    ind = 0
+    for clue in acClues:
+        #print(clue.text,"\n")
+        driver.find_element_by_id(inputId).send_keys(clue.text)
+        time.sleep(0.3)
+        btn = driver.find_element_by_id("search-button")
+        btn.click()
+        time.sleep(1.2)
+        rList = []
+
+        words = driver.find_elements_by_class_name("item")
+        try:
+            for i in range(0,10):
+                if(len(words[i].text) <= 5):
+                    #print(words[i].text)
+                    rList.append(words[i].text)
+        except:
+            pass
+        #print("\n")
+        resList[ind] = rList
+        ind = ind + 1
+        btn = driver.find_element_by_id("clear-search-button")
+        btn.click()
+        time.sleep(1)
+    
+
+    for clue in dnClues:
+        #print(clue.text,"\n")
+        driver.find_element_by_id(inputId).send_keys(clue.text)
+        time.sleep(0.3)
+        btn = driver.find_element_by_id("search-button")
+        btn.click()
+        time.sleep(1.2)
+        rList = []
+        words = driver.find_elements_by_class_name("item")
+        try:
+            for i in range(0,10):
+                if(len(words[i].text) <= 5):
+                    #print(words[i].text)
+                    rList.append(words[i].text)
+        except:
+            pass
+        resList[ind] = rList
+        ind = ind + 1
+        #print("\n")
+        btn = driver.find_element_by_id("clear-search-button")
+        btn.click()
+        time.sleep(1)
+
+    return resList
+    driver.close
