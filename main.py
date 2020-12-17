@@ -250,7 +250,11 @@ def main():
                 acrossInfo.append((rowNo, j)) # adding letters in answers if it's not whitespace to check length
                 acrossLengths[j] += 1
         print("")
-    
+
+    #resDataMuse2 = search.detailedSearchDataMuse("What a black three-leaf clover represents","?lu?")
+    resDataMuse2 = search.detailedSearchDataMuse(acrossClues[0].text,"?lu?")
+    print(resDataMuse2)
+
     mainloop()
     
 
