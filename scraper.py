@@ -168,7 +168,7 @@ def findInputPutKey(getUrl, inputId,acClues,dnClues):
     
 
     for clue in dnClues:
-        print("Searching for ==> ",clue,"\n")
+        print("Searching for ==> ",clue.text,"\n")
         driver2.find_element_by_id(inputId).send_keys(clue.text)
         time.sleep(0.3)
         btn = driver2.find_element_by_id("search-button")

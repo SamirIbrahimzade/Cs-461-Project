@@ -159,15 +159,18 @@ def main():
 
     #puzzle canvas
     print("Creating the puzzle canvas")
-    puzzleGrid = Canvas(master, width=7*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
+    puzzleGrid = Canvas(master, width=6*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
     puzzleGrid.pack(side="left",padx=15,pady=15)
     answers = [['a','b','c','d','e'],['f','g','h','i','j'],['k','l','m','n','o'],['p','q','r','s','t'],['u','v','w','x','y']]
     puzzle = [[11, 12, 5, 2, 0], [0, 15, 6, 10, 0], [10, 0, 12, 5, 2], [12, 15, 8, 6, 1], [5, 0, 9, 5, 2]]
+
+    newPuzzleGrid = Canvas(master, width=6*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
+    newPuzzleGrid.pack(side='right',padx=15,pady=15)
         
     # clues canvas
     print("Creating the clue canvas")
-    cluesCnv = Canvas(master, width=300, height=300)
-    cluesCnv.pack(side = "right",padx=15,pady=15)
+    cluesCnv = Canvas(master, width=350, height=350)
+    cluesCnv.pack(side = "bottom",padx=15,pady=15)
 
     print()
     print("Starting the process of retrieving answers !")
@@ -189,22 +192,30 @@ def main():
             
             if (matrix[i,j].number==-8):
                 puzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*100+100, i*100+100, fill="black")
+                newPuzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*100+100, i*100+100, fill="black")
+
                 
 
     puzzleGrid.create_line(2, 0, 2, 500, fill="black", width=2)
     puzzleGrid.create_line(0, 2, 500, 2, fill="black", width=2)
 
+    newPuzzleGrid.create_line(2, 0, 2, 500, fill="black", width=2)
+    newPuzzleGrid.create_line(0, 2, 500, 2, fill="black", width=2)
+    
+
     #Creates all vertical lines at intervals of PUZZLE_SIDE_LENGTH
     for i in range(1, 6, 1):
         puzzleGrid.create_line([(i*100, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
+        newPuzzleGrid.create_line([(i*100, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
 
     # Creates all horizontal lines at intervals of PUZZLE_SIDE_LENGTH
     for i in range(1, 6, 1):
         puzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
+        newPuzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
     print("Printing the time label to the gui")
-    timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 510,  y = 460)
+    timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 360,  y = 560)
     #timeLabel.pack()
 
     print("Adding clues to the canvas")
