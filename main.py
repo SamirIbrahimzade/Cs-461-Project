@@ -97,7 +97,60 @@ def main():
     showDownClues(downClues,downIndexes)
     print("Retrieved date and time is " + getDate())
 
+    #scraper.closeDriver()
+    
 
+    print()
+
+    resRevDict = search.searchRevDict(acrossClues,downClues)
+    #resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
+
+    resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
+    resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
+
+    print("Result RevDict",resRevDict,"\n\n")
+    #print("Result Google",resGoogle,"\n\n")
+    print("Result DataMuse",resDataMuse,"\n\n")
+    print("Result Merriam",resMerriam,"\n\n")
+
+    
+
+    '''
+    print("google")
+    for i in range(len(resGoogle)):
+        print(resGoogle[i])
+    '''
+
+    print("\n\ndatamuse")
+    for i in range(len(resDataMuse)):
+        print(resDataMuse[i])
+
+    print("\n\nmerriam")
+    for i in range(len(resMerriam)):
+        print(resMerriam[i])
+
+    print("\n\nrevDict")
+    for i in range(len(resRevDict)):
+        print(resMerriam[i])
+
+    print("datamuse ", resDataMuse[0] )
+
+    print("across index info", acrossInfo)
+    print("down index info", downInfo)
+
+    print("across lengths ", acrossLengths)
+    print("down lengths ", downLengths)
+
+    
+    finList = [[]]*(len(acrossClues)+len(downClues))
+
+    for i in range (len(acrossClues)+len(downClues)):
+        finList[i] = resDataMuse[i] + resMerriam[i]+ resRevDict[i]
+    print(finList)
+
+    
+   
+    ############################################################################################################
     print("Drawing the gui")
     #GUI part
     master = Tk()
@@ -186,45 +239,8 @@ def main():
                 acrossInfo.append((rowNo, j)) # adding letters in answers if it's not whitespace to check length
                 acrossLengths[j] += 1
         print("")
-   
+    
     mainloop()
-
-    print()
-
-    scraper.closeDriver()
-
-    #resRevDict = search.searchRevDict(acrossClues,downClues)
-    resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
-
-    resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
-    resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
-
-    #print("Result RevDict",resRevDict,"\n\n")
-    print("Result Google",resGoogle,"\n\n")
-    print("Result DataMuse",resDataMuse,"\n\n")
-    print("Result Merriam",resMerriam,"\n\n")
-
-
-    print("google")
-    for i in range(len(resGoogle)):
-        print(resGoogle[i])
-
-    print("\n\ndatamuse")
-    for i in range(len(resDataMuse)):
-        print(resDataMuse[i])
-
-    print("\n\nmiriam")
-    for i in range(len(resMerriam)):
-        print(resMerriam[i])
-
-    print("datamuse ", resDataMuse[0] )
-
-    print("across index info", acrossInfo)
-    print("down index info", downInfo)
-
-    print("across lengths ", acrossLengths)
-    print("down lengths ", downLengths)
-
-
+    
 
 main()

@@ -7,11 +7,7 @@ import time
 
 DRIVER_PATH = 'chromedriver.exe'
 
-options = Options()
-options.headless = True
-options.add_argument("--window-size=1800,1200")
 
-driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
 
 class matrix_cell:
     def __init__(self, number, letter):
@@ -45,12 +41,19 @@ def getAllOl(getFrom,className):
 
 def closeDriver():
     driver.quit()
+   
 
 def getAnswers():
+
+    options = Options()
+    options.headless = True
+    options.add_argument("--window-size=800,600")
+
+    driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
     # old https://www.nytimes.com/crosswords/game/mini/2016/06/01
     # uptodate https://www.nytimes.com/crosswords/game/mini
     driver.get("https://www.nytimes.com/crosswords/game/mini")
-    sleepTime = 0
+    sleepTime = 1.5
     print("Connected to the https://www.nytimes.com/crosswords/game/mini")
     print("Waiting time between requests is " + str(sleepTime) + " seconds")
     print("Waiting " + str(sleepTime) + " seconds")
@@ -127,21 +130,28 @@ def getAnswers():
 
 def findInputPutKey(getUrl, inputId,acClues,dnClues):
 
-    driver.get(getUrl)
+    options2 = Options()
+    options2.headless = True
+    options2.add_argument("--window-size=800,600")
+
+    driver2 = webdriver.Chrome(options=options2, executable_path=DRIVER_PATH)
+
+
+    driver2.get(getUrl)
     resList = [[]]*(len(acClues)+len(dnClues))
     
 
     ind = 0
     for clue in acClues:
-        #print(clue.text,"\n")
-        driver.find_element_by_id(inputId).send_keys(clue.text)
+        print("Searching for ==> ", clue.text,"\n")
+        driver2.find_element_by_id(inputId).send_keys(clue.text)
         time.sleep(0.3)
-        btn = driver.find_element_by_id("search-button")
+        btn = driver2.find_element_by_id("search-button")
         btn.click()
         time.sleep(1.2)
         rList = []
 
-        words = driver.find_elements_by_class_name("item")
+        words = driver2.find_elements_by_class_name("item")
         try:
             for i in range(0,10):
                 if(len(words[i].text) <= 5):
@@ -152,20 +162,20 @@ def findInputPutKey(getUrl, inputId,acClues,dnClues):
         #print("\n")
         resList[ind] = rList
         ind = ind + 1
-        btn = driver.find_element_by_id("clear-search-button")
+        btn = driver2.find_element_by_id("clear-search-button")
         btn.click()
         time.sleep(1)
     
 
     for clue in dnClues:
-        #print(clue.text,"\n")
-        driver.find_element_by_id(inputId).send_keys(clue.text)
+        print("Searching for ==> ",clue,"\n")
+        driver2.find_element_by_id(inputId).send_keys(clue.text)
         time.sleep(0.3)
-        btn = driver.find_element_by_id("search-button")
+        btn = driver2.find_element_by_id("search-button")
         btn.click()
         time.sleep(1.2)
         rList = []
-        words = driver.find_elements_by_class_name("item")
+        words = driver2.find_elements_by_class_name("item")
         try:
             for i in range(0,10):
                 if(len(words[i].text) <= 5):
@@ -176,9 +186,10 @@ def findInputPutKey(getUrl, inputId,acClues,dnClues):
         resList[ind] = rList
         ind = ind + 1
         #print("\n")
-        btn = driver.find_element_by_id("clear-search-button")
+        btn = driver2.find_element_by_id("clear-search-button")
         btn.click()
         time.sleep(1)
 
+    driver2.quit()
     return resList
-    driver.close
+    
