@@ -68,7 +68,7 @@ def findCellWithNoReturnRow(matrix,  x ):
             if matrix[i,j].number == x:
                 return i
 
-def callSearch(isAcross,lst,index):
+def callSearch(isAcross,lst):
 
     word = ""
 
@@ -116,7 +116,7 @@ def main():
     
 
     print()
-
+    '''
     resRevDict = search.searchRevDict(acrossClues,downClues)
     #resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
 
@@ -130,11 +130,11 @@ def main():
 
     
 
-    '''
+   
     print("google")
     for i in range(len(resGoogle)):
         print(resGoogle[i])
-    '''
+    
 
     print("\n\ndatamuse")
     for i in range(len(resDataMuse)):
@@ -155,37 +155,49 @@ def main():
 
     print("across lengths ", acrossLengths)
     print("down lengths ", downLengths)
-
+    
     
     finList = [[]]*(len(acrossClues)+len(downClues))
 
     for i in range (len(acrossClues)+len(downClues)):
         finList[i] = resDataMuse[i] + resMerriam[i]+ resRevDict[i]
     print(finList)
-
+    '''
     
    
     ############################################################################################################
-    print("Drawing the gui")
+    print("Drawing the GUI")
     #GUI part
     master = Tk()
-    master.configure(background='gray')
+    master.title("ASOFT PUZZLE SOLVER")
+    master.configure()
 
 
     #puzzle canvas
     print("Creating the puzzle canvas")
-    puzzleGrid = Canvas(master, width=6*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
+
+    #title
+    titleGrid = Canvas(master, width=6*PUZZLE_SIDE_LENGTH, height=PUZZLE_SIDE_LENGTH)
+    titleGrid.pack(side='top',padx=15,pady=15)
+    tittleLabel = Label(titleGrid, text="NYT Mini Crossword Puzzle",font = "Times 36 bold").place(x = 0,  y = 0)
+
+
+    puzzleGrid = Canvas(master, width=5*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
     puzzleGrid.pack(side="left",padx=15,pady=15)
+    puzzleGrid.outline='black'
+    puzzleGrid.width=2
     answers = [['a','b','c','d','e'],['f','g','h','i','j'],['k','l','m','n','o'],['p','q','r','s','t'],['u','v','w','x','y']]
     puzzle = [[11, 12, 5, 2, 0], [0, 15, 6, 10, 0], [10, 0, 12, 5, 2], [12, 15, 8, 6, 1], [5, 0, 9, 5, 2]]
 
-    newPuzzleGrid = Canvas(master, width=6*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
+    newPuzzleGrid = Canvas(master, width=5*PUZZLE_SIDE_LENGTH, height=6*PUZZLE_SIDE_LENGTH)
     newPuzzleGrid.pack(side='right',padx=15,pady=15)
+    #newPuzzleGrid.outline='black'
+    #newPuzzleGrid.width=2
         
     # clues canvas
     print("Creating the clue canvas")
-    cluesCnv = Canvas(master, width=350, height=350)
-    cluesCnv.pack(side = "bottom",padx=15,pady=15)
+    cluesCnv = Canvas(master, width=4*PUZZLE_SIDE_LENGTH, height=4*PUZZLE_SIDE_LENGTH)
+    cluesCnv.pack(side = "top",padx=15,pady=15)
 
     print()
     print("Starting the process of retrieving answers !")
@@ -200,37 +212,39 @@ def main():
 
             #add label inside boxes
             if(matrix[i,j].number != 0 and matrix[i,j].number != -8):
-                L = Label(puzzleGrid, text=str(matrix[i,j].number), font = "Times 12").place(x = j*100+5,  y = i*100+5)
+                L = Label(puzzleGrid, text=str(matrix[i,j].number), font = "Times 12").place(x = j*PUZZLE_SIDE_LENGTH+5,  y = i*PUZZLE_SIDE_LENGTH+5)
+                L = Label(newPuzzleGrid, text=str(matrix[i,j].number), font = "Times 12").place(x = j*PUZZLE_SIDE_LENGTH+5,  y = i*PUZZLE_SIDE_LENGTH+5)
+
             
             #if(matrix[i,j].number != -8):
             #    L = Label(puzzleGrid, text=str(answers[j][i]),font = "Times").place(x = i*100+50,  y = j*100+50)
             
             if (matrix[i,j].number==-8):
-                puzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*100+100, i*100+100, fill="black")
-                newPuzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*100+100, i*100+100, fill="black")
+                puzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*PUZZLE_SIDE_LENGTH+PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH+PUZZLE_SIDE_LENGTH, fill="black")
+                newPuzzleGrid.create_rectangle(j*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH, j*PUZZLE_SIDE_LENGTH+PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH+PUZZLE_SIDE_LENGTH, fill="black")
 
                 
 
-    puzzleGrid.create_line(2, 0, 2, 500, fill="black", width=2)
-    puzzleGrid.create_line(0, 2, 500, 2, fill="black", width=2)
+    puzzleGrid.create_line(2, 0, 2, 5*PUZZLE_SIDE_LENGTH, fill="black", width=2)
+    puzzleGrid.create_line(0, 2, 5*PUZZLE_SIDE_LENGTH, 2, fill="black", width=2)
 
-    newPuzzleGrid.create_line(2, 0, 2, 500, fill="black", width=2)
-    newPuzzleGrid.create_line(0, 2, 500, 2, fill="black", width=2)
+    newPuzzleGrid.create_line(2, 0, 2, 5*PUZZLE_SIDE_LENGTH, fill="black", width=2)
+    newPuzzleGrid.create_line(0, 2, 5*PUZZLE_SIDE_LENGTH, 2, fill="black", width=2)
     
 
     #Creates all vertical lines at intervals of PUZZLE_SIDE_LENGTH
-    for i in range(1, 6, 1):
-        puzzleGrid.create_line([(i*100, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
-        newPuzzleGrid.create_line([(i*100, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
+    for i in range(0, 6, 1):
+        puzzleGrid.create_line([(i*PUZZLE_SIDE_LENGTH, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
+        newPuzzleGrid.create_line([(i*PUZZLE_SIDE_LENGTH, 0), (i*PUZZLE_SIDE_LENGTH, 5*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
 
     # Creates all horizontal lines at intervals of PUZZLE_SIDE_LENGTH
-    for i in range(1, 6, 1):
-        puzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
-        newPuzzleGrid.create_line([(0, i*100), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
+    for i in range(0, 6, 1):
+        puzzleGrid.create_line([(0, i*PUZZLE_SIDE_LENGTH), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
+        newPuzzleGrid.create_line([(0, i*PUZZLE_SIDE_LENGTH), (5*PUZZLE_SIDE_LENGTH, i*PUZZLE_SIDE_LENGTH)], tag='table_line')
 
     print("Printing the time label to the gui")
-    timeLabel = Label(puzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 360,  y = 560)
+    timeLabel = Label(newPuzzleGrid, text= "Group Name : ASOFT\nDate and Time : " + getDate()).place(x = 260,  y = 560)
     #timeLabel.pack()
 
     print("Adding clues to the canvas")
@@ -240,40 +254,68 @@ def main():
 
     print("Printing answers to the both gui and terminal")
 
+    across = [0]*10
+    down = [0]*10
+
+    across[1] = ('C',(0,1) ), ('L',(0,2) ), ('U',(0,3) ), ('B',(0,4) )
+    across[5] = ('L',(1,1) ), ('A',(1,2) ), ('N',(1,3) ), ('E',(1,4) )
+    across[6] = ('M',(2,0) ), ('A',(2,1) ), ('Y',(2,2) ), ('B',(2,3) ), ('E',(2,4) )
+    across[7] = ('O',(3,0) ), ('R',(3,1) ), ('E',(3,2) ), ('O',(3,3) )
+    across[8] = ('M',(4,0) ), ('A',(4,1) ), ('R',(4,2) ), ('X',(4,3) )
+
+    down[1] = ('C',(0,0) ), ('L',(1,0) ), ('A',(2,0) ), ('R',(3,0) ), ('A',(4,0) )
+    down[2] = ('L',(0,1) ), ('A',(1,1) ), ('Y',(2,1) ), ('E',(3,1) ), ('R',(4,1) )
+    down[3] = ('U',(0,2) ), ('N',(1,2) ), ('B',(2,2) ), ('O',(3,2) ), ('X',(4,2) )
+    down[4] = ('B',(0,3) ), ('E',(1,3) ), ('E',(2,3) )
+    down[6] = ('M',(2,4) ), ('O',(3,4) ), ('M',(4,4) )
+
     print("Down")
     for i in range (len(across_clue)):
-        print(across_clue[i].getText(), end=" ---> ")
+        print(across_clue[i].getText(), " ---> ")
         colNo = findCellWithNoReturnCol(matrix,across_clue[i].getText()[0])
         for j in range(0,5):
             #L = Label(puzzleGrid, text=str(matrix[j,colNo].letter),font = "Times").place(x = i*100+50,  y = j*100+50)
-            print( matrix[j,colNo].letter, end = "" )
+            print( matrix[j,colNo].letter, "" )
             if(ord(matrix[j,colNo].letter) != 32):
                 downInfo.append((j,colNo))    # adding letters in answers if it's not whitespace to check length
                 downLengths[j] += 1
         print("")
+
+    print(across[5][2])
+    index = 0
+    for i in range(10):
+        if(across[i] != 0):
+            for j in range(5):
+                try:
+                    L = Label(newPuzzleGrid, text=str(across[i][j][0]),font = "Times 42 bold").place(x = across[i][j][1][1]*PUZZLE_SIDE_LENGTH+25,  y = across[i][j][1][0]*PUZZLE_SIDE_LENGTH+20)
+                except:
+                    pass
+                index = index + 1
     
     print("\nAcross")
     for i in range (len(horiz_clue)):
-        print(horiz_clue[i].getText(), end=" ---> ")
+        print(horiz_clue[i].getText(), " ---> ")
         rowNo = findCellWithNoReturnRow(matrix,horiz_clue[i].getText()[0])
          
         for j in range(0,5):
             if(str(matrix[rowNo, j].letter) != " "):
-                L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*100+25,  y = i*100+20)
-            print (matrix[rowNo, j].letter, end = "")
+                 L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*PUZZLE_SIDE_LENGTH+25,  y = i*PUZZLE_SIDE_LENGTH+20)
+            print (matrix[rowNo, j].letter,  "")
             if(ord(matrix[rowNo, j].letter) != 32):
                 acrossInfo.append((rowNo, j)) # adding letters in answers if it's not whitespace to check length
                 acrossLengths[j] += 1
         print("")
+    A = "KEYS" #across 5
+    B = "KEYS"
 
     #resDataMuse2 = search.detailedSearchDataMuse("What a black three-leaf clover represents","?lu?")
-    resDataMuse2 = search.detailedSearchDataMuse("mayb?")
-    print(resDataMuse2)
+    #resDataMuse2 = search.detailedSearchDataMuse("mayb?")
+    #print(resDataMuse2)
 
 
 
     # calling detailed search method example
-    #callSearch(True,across[6],6)
+    #callSearch(True,across[6])
 
     mainloop()
     
