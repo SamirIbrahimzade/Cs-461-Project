@@ -68,7 +68,7 @@ def findCellWithNoReturnRow(matrix,  x ):
             if matrix[i,j].number == x:
                 return i
 
-def callSearch(isAcross,lst,index,acrossClues,downClues):
+def callSearch(isAcross,lst,index):
 
     word = ""
 
@@ -76,10 +76,10 @@ def callSearch(isAcross,lst,index,acrossClues,downClues):
         word = word + element[0]
 
     if(isAcross):
-        resDataMuse2 = search.detailedSearchDataMuse(acrossClues[index].text,word)
+        resDataMuse2 = search.detailedSearchDataMuse(word)
         
     else:
-        resDataMuse2 = search.detailedSearchDataMuse(downClues[index].text,word)
+        resDataMuse2 = search.detailedSearchDataMuse(word)
 
     return resDataMuse2
 
