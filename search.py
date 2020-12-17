@@ -90,7 +90,7 @@ def searchDataMuse(acClues,acIndexes,dnClues,dnIndexes):
 
     return resList
 
-    def detailedSearchDataMuse(knu, heuristic):
+def detailedSearchDataMuse(knu, heuristic):
 
     resList = []
 
@@ -102,8 +102,8 @@ def searchDataMuse(acClues,acIndexes,dnClues,dnIndexes):
 
     respond = request.json()
 
-    #for j in range(len(respond)):
-    for j in range(5):
+    for j in range(len(respond)):
+    #for j in range(5):
         resList.append(respond[j]['word'])
 
     return resList
