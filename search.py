@@ -90,23 +90,6 @@ def searchDataMuse(acClues,acIndexes,dnClues,dnIndexes):
 
     return resList
 
-def detailedSearchDataMuse(knu, heuristic):
-
-    resList = []
-
-
-    query = knu.replace(" ", "+")
-    query = query.lower()
-
-    request = requests.get('https://api.datamuse.com/words?ml={}&sp={}'.format(query, heuristic))
-
-    respond = request.json()
-
-    #for j in range(len(respond)):
-    for j in range(5):
-        resList.append(respond[j]['word'])
-
-    return resList
 
 def searchMerriam(acClues,acIndexes,dnClues,dnIndexes):
     

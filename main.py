@@ -68,6 +68,21 @@ def findCellWithNoReturnRow(matrix,  x ):
             if matrix[i,j].number == x:
                 return i
 
+def callSearch(isAcross,lst,index,acrossClues,downClues):
+
+    word = ""
+
+    for element in lst:
+        word = word + element[0]
+
+    if(isAcross):
+        resDataMuse2 = search.detailedSearchDataMuse(acrossClues[index].text,word)
+        
+    else:
+        resDataMuse2 = search.detailedSearchDataMuse(downClues[index].text,word)
+
+    return resDataMuse2
+
 # list to store answers to check length
 acrossInfo = []
 downInfo = []
@@ -252,8 +267,13 @@ def main():
         print("")
 
     #resDataMuse2 = search.detailedSearchDataMuse("What a black three-leaf clover represents","?lu?")
-    resDataMuse2 = search.detailedSearchDataMuse(acrossClues[0].text,"?lu?")
-    print(resDataMuse2)
+    #resDataMuse2 = search.detailedSearchDataMuse(acrossClues[0].text,"?lu?")
+    #print(resDataMuse2)
+
+
+
+    # calling detailed search method example
+    #callSearch(True,across[6],6)
 
     mainloop()
     
