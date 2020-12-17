@@ -267,7 +267,7 @@ def main():
         print("")
 
     #resDataMuse2 = search.detailedSearchDataMuse("What a black three-leaf clover represents","?lu?")
-    resDataMuse2 = search.detailedSearchDataMuse(acrossClues[4].text,"??rx")
+    resDataMuse2 = search.detailedSearchDataMuse("mayb?")
     print(resDataMuse2)
 
 

@@ -90,15 +90,15 @@ def searchDataMuse(acClues,acIndexes,dnClues,dnIndexes):
 
     return resList
 
-def detailedSearchDataMuse(knu, heuristic):
+def detailedSearchDataMuse(heuristic):
 
     resList = []
 
 
-    query = knu.replace(" ", "+")
-    query = query.lower()
+    #query = knu.replace(" ", "+")
+    #query = query.lower()
 
-    request = requests.get('https://api.datamuse.com/words?ml={}&sp={}'.format(query, heuristic))
+    request = requests.get('https://api.datamuse.com/words?sp={}'.format(heuristic))
 
     respond = request.json()
 
