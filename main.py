@@ -68,6 +68,13 @@ def findCellWithNoReturnRow(matrix,  x ):
             if matrix[i,j].number == x:
                 return i
 
+def findCellInfoWithNumber(matrix, x):
+
+    for i in range(0,5):
+        for j in range (0,5):
+            if matrix[i,j].number == x:
+                return i,j
+
 def callSearch(isAcross,lst):
 
     word = ""
@@ -84,8 +91,8 @@ def callSearch(isAcross,lst):
     return resDataMuse2
 
 # list to store answers to check length
-acrossInfo = []
-downInfo = []
+acrossBeginningInfo = []
+downBeginningInfo = []
 
 acrossLengths = [0,0,0,0,0]
 downLengths = [0,0,0,0,0]
@@ -193,7 +200,7 @@ def main():
     newPuzzleGrid.pack(side='right',padx=15,pady=15)
     #newPuzzleGrid.outline='black'
     #newPuzzleGrid.width=2
-        
+
     # clues canvas
     print("Creating the clue canvas")
     cluesCnv = Canvas(master, width=4*PUZZLE_SIDE_LENGTH, height=4*PUZZLE_SIDE_LENGTH)
@@ -202,6 +209,31 @@ def main():
     print()
     print("Starting the process of retrieving answers !")
     matrix, across_clue, horiz_clue = scraper.getAnswers()
+
+    # getting indexes of answer beginnings and storing them
+    for i in range(len(acrossIndexes)):
+        acrossBeginningInfo.append(findCellInfoWithNumber(matrix, acrossIndexes[i].text))
+    for i in range(len(downIndexes)):
+        downBeginningInfo.append(findCellInfoWithNumber(matrix,downIndexes[i].text))
+
+    # getting lengths of across answers
+    # selecting each answer beginning (first letter) info and going across counting every white cell
+    for i in range(len(acrossBeginningInfo)):
+        rowNo= acrossBeginningInfo[i][0]
+        colNo = acrossBeginningInfo[i][1]
+        for j in range(colNo, 5):
+            if(int(matrix[rowNo,j].number) >= 0):
+                acrossLengths[i] += 1
+
+    # getting lengths of down answers
+    # selecting each answer beginning (first letter) info and going down counting every white cell
+    for i in range(len(downBeginningInfo)):
+        rowNo = downBeginningInfo[i][0]
+        colNo = downBeginningInfo[i][1]
+        for j in range(rowNo, 5):
+            if (int(matrix[j, colNo].number) >= 0):
+                downLengths[i] += 1
+
 
     print()
     #drawing the grid    
@@ -275,10 +307,7 @@ def main():
         colNo = findCellWithNoReturnCol(matrix,across_clue[i].getText()[0])
         for j in range(0,5):
             #L = Label(puzzleGrid, text=str(matrix[j,colNo].letter),font = "Times").place(x = i*100+50,  y = j*100+50)
-            print( matrix[j,colNo].letter, "" )
-            if(ord(matrix[j,colNo].letter) != 32):
-                downInfo.append((j,colNo))    # adding letters in answers if it's not whitespace to check length
-                downLengths[j] += 1
+            print( matrix[j,colNo].letter, end = "" )
         print("")
 
     print(across[5][2])
@@ -291,7 +320,7 @@ def main():
                 except:
                     pass
                 index = index + 1
-    
+
     print("\nAcross")
     for i in range (len(horiz_clue)):
         print(horiz_clue[i].getText(), " ---> ")
@@ -301,9 +330,6 @@ def main():
             if(str(matrix[rowNo, j].letter) != " "):
                  L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*PUZZLE_SIDE_LENGTH+25,  y = i*PUZZLE_SIDE_LENGTH+20)
             print (matrix[rowNo, j].letter,  "")
-            if(ord(matrix[rowNo, j].letter) != 32):
-                acrossInfo.append((rowNo, j)) # adding letters in answers if it's not whitespace to check length
-                acrossLengths[j] += 1
         print("")
     A = "KEYS" #across 5
     B = "KEYS"
