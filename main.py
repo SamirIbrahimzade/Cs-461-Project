@@ -73,7 +73,7 @@ def findCellInfoWithNumber(matrix, x):
     for i in range(0,5):
         for j in range (0,5):
             if matrix[i,j].number == x:
-                return i,j
+                return i,j,int(x)
 
 def callSearch(isAcross,lst):
 
@@ -90,13 +90,76 @@ def callSearch(isAcross,lst):
 
     return resDataMuse2
 
+# finding intersection of answers to compare
+def findIntersectedCells(matrix, acrossBeginningInfo, downBeginningInfo):
+
+    result = {}
+
+    for i in range(0,5):
+        for j in range(0,5):
+            if(int(matrix[i,j].number) < 0):    # if current cell is black
+                result[i,j] = (-1,-1,-1,-1)
+            else:
+                for p in range(len(acrossBeginningInfo)):
+                    if(acrossBeginningInfo[p][0] == i):
+                        for q in range(len(downBeginningInfo)):
+                            if(downBeginningInfo[q][1] == j):
+                                # storing results in tuples with 4 elements
+                                # (0) across answer number that cell belongs to
+                                # (1) across distance that cell is far from beginning of word
+                                # (2) down answer number that cell belongs to
+                                # (3) down distance that cell is far from beginning of word
+                                result[i,j] = (acrossBeginningInfo[p][2], (j - acrossBeginningInfo[p][1]), downBeginningInfo[q][2], (i - downBeginningInfo[q][0]))
+
+    return result
+
+def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
+
+    across = resDataMuse[0:5]
+    down = resDataMuse[5:10]
+
+    # index of those words are not in the same length of the answers
+    acrossDeleteIndexes = []
+    downDeleteIndexes = []
+
+    # finding indexes for answer candidates that is not same length with answer
+    for i in range(len(across)):
+        for j in range(len(across[i])):
+            if(acrossLengths[i] != len(across[i][j])):
+                acrossDeleteIndexes.append((i,j))
+    # indexes are chosen and deleted from search list
+    for i in reversed(range(len(acrossDeleteIndexes))):
+        p = acrossDeleteIndexes[i][0]
+        q = acrossDeleteIndexes[i][1]
+        del across[p][q]
+
+    # same process for down
+    for i in range(len(down)):
+        for j in range(len(down[i])):
+            if(downLengths[i] != len(down[i][j])):
+                downDeleteIndexes.append((i,j))
+    # indexes are chosen and deleted from search list
+    for i in reversed(range(len(downDeleteIndexes))):
+        p = downDeleteIndexes[i][0]
+        q = downDeleteIndexes[i][1]
+        del down[p][q]
+
+    print("across")
+    print(across)
+    print("\ndown")
+    print(down)
+    print()
+
+
+    return
+
+
 # list to store answers to check length
 acrossBeginningInfo = []
 downBeginningInfo = []
 
 acrossLengths = [0,0,0,0,0]
 downLengths = [0,0,0,0,0]
-
 
 
 def main():
@@ -123,55 +186,48 @@ def main():
     
 
     print()
-    '''
-    resRevDict = search.searchRevDict(acrossClues,downClues)
+
+    #resRevDict = search.searchRevDict(acrossClues,downClues)
     #resGoogle = search.searchGoogle(acrossClues,acrossIndexes,downClues,downIndexes)
 
     resDataMuse = search.searchDataMuse(acrossClues,acrossIndexes,downClues,downIndexes)
-    resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
+    #resMerriam = search.searchMerriam(acrossClues,acrossIndexes,downClues,downIndexes)
 
-    print("Result RevDict",resRevDict,"\n\n")
+    #print("Result RevDict",resRevDict,"\n\n")
     #print("Result Google",resGoogle,"\n\n")
     print("Result DataMuse",resDataMuse,"\n\n")
-    print("Result Merriam",resMerriam,"\n\n")
+    #print("Result Merriam",resMerriam,"\n\n")
 
     
 
    
-    print("google")
-    for i in range(len(resGoogle)):
-        print(resGoogle[i])
+    # print("google")
+    # for i in range(len(resGoogle)):
+    #     print(resGoogle[i])
     
 
     print("\n\ndatamuse")
     for i in range(len(resDataMuse)):
         print(resDataMuse[i])
 
-    print("\n\nmerriam")
-    for i in range(len(resMerriam)):
-        print(resMerriam[i])
+    # print("\n\nmerriam")
+    # for i in range(len(resMerriam)):
+    #     print(resMerriam[i])
 
-    print("\n\nrevDict")
-    for i in range(len(resRevDict)):
-        print(resMerriam[i])
+    # print("\n\nrevDict")
+    # for i in range(len(resRevDict)):
+    #     print(resMerriam[i])
 
     print("datamuse ", resDataMuse[0] )
-
-    print("across index info", acrossInfo)
-    print("down index info", downInfo)
-
-    print("across lengths ", acrossLengths)
-    print("down lengths ", downLengths)
     
     
-    finList = [[]]*(len(acrossClues)+len(downClues))
+    # finList = [[]]*(len(acrossClues)+len(downClues))
+    #
+    # for i in range (len(acrossClues)+len(downClues)):
+    #     finList[i] = resDataMuse[i] + resMerriam[i]+ resRevDict[i]
+    # print(finList)
 
-    for i in range (len(acrossClues)+len(downClues)):
-        finList[i] = resDataMuse[i] + resMerriam[i]+ resRevDict[i]
-    print(finList)
-    '''
-    
-   
+
     ############################################################################################################
     print("Drawing the GUI")
     #GUI part
@@ -233,6 +289,14 @@ def main():
         for j in range(rowNo, 5):
             if (int(matrix[j, colNo].number) >= 0):
                 downLengths[i] += 1
+
+    # intersectionInfo[i,j] = (leftMostNumber, distanceFromLeft, topMostNumber, distanceFromTop) (explained in detail in findIntersectedCells function)
+    intersectionInfo = findIntersectedCells(matrix, acrossBeginningInfo, downBeginningInfo)
+    # for i in range(0,5):
+    #     for j in range (0,5):
+    #         print(intersectionInfo[i,j])
+
+    compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo)
 
 
     print()
