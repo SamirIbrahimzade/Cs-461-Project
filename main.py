@@ -118,11 +118,13 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
     across = resDataMuse[0:5]
     down = resDataMuse[5:10]
 
+    # first getting rid of answer candidates that are not in the same size with answers (bigger than length 5 gotten rid of before)
+
     # index of those words are not in the same length of the answers
     acrossDeleteIndexes = []
     downDeleteIndexes = []
 
-    # finding indexes for answer candidates that is not same length with answer
+    # finding indexes for answer candidates that are not same length with answer
     for i in range(len(across)):
         for j in range(len(across[i])):
             if(acrossLengths[i] != len(across[i][j])):
@@ -144,13 +146,37 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
         q = downDeleteIndexes[i][1]
         del down[p][q]
 
-    print("across")
-    print(across)
-    print("\ndown")
-    print(down)
+    # storing answers with index of clues instead of 0,1,2,3,4
+    newAcross = [[]]*10
+    newDown = [[]]*10
+    for i in range(0,10):
+        for j in range(len(acrossBeginningInfo)):
+            if(acrossBeginningInfo[j][2] == i):
+                newAcross[i] = across[j]
+
+    for i in range(0,10):
+        for j in range(len(downBeginningInfo)):
+            if(downBeginningInfo[j][2] == i):
+                newDown[i] = down[j]
+
+    possibleMatches = []
+    # starting to compare intersections
+    for i in range(len(acrossBeginningInfo)):
+        p = acrossBeginningInfo[i][0]   # coordinate index value of letter
+        q = acrossBeginningInfo[i][1]
+
+        acrossBeginIndex, acrossDistance, downBeginIndex, downDistance = intersectionInfo[p,q]
+
+        for j in range(len(newAcross[acrossBeginIndex])):
+            for k in range(len(newDown[downBeginIndex])):
+                if(newAcross[acrossBeginIndex][j][acrossDistance] == newDown[downBeginIndex][k][downDistance]):
+                    print(newAcross[acrossBeginIndex][j], " ", newDown[downBeginIndex][k])
+                    possibleMatches.append((newAcross[acrossBeginIndex][j], newDown[downBeginIndex][k]))
+
+
+        #print()
+
     print()
-
-
     return
 
 
