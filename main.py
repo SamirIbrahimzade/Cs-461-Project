@@ -10,6 +10,7 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from tkinter import *
 #import Tkinter as Tk
+import copy
 
 class matrix_cell:
     def __init__(self, number, letter):
@@ -109,7 +110,7 @@ def findIntersectedCells(matrix, acrossBeginningInfo, downBeginningInfo):
                                 # (1) across distance that cell is far from beginning of word
                                 # (2) down answer number that cell belongs to
                                 # (3) down distance that cell is far from beginning of word
-                                result[i,j] = (acrossBeginningInfo[p][2], (j - acrossBeginningInfo[p][1]), downBeginningInfo[q][2], (i - downBeginningInfo[q][0]))
+                                result[i,j] = (acrossBeginningInfo[p][2], (j - acrossBeginningInfo[p][1]), downBeginningInfo[q][2], (i - downBeginningInfo[q][0]), "-1")
 
     return result
 
@@ -160,25 +161,52 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
                 newDown[i] = down[j]
 
     possibleMatches = []
-    # starting to compare intersections
-    for i in range(len(acrossBeginningInfo)):
-        p = acrossBeginningInfo[i][0]   # coordinate index value of letter
-        q = acrossBeginningInfo[i][1]
 
-        acrossBeginIndex, acrossDistance, downBeginIndex, downDistance = intersectionInfo[p,q]
+    for k in range(len(newAcross)):
+        if(len(newAcross[k]) > 0 ):
+            for t in range(0,5):
+                if(acrossBeginningInfo[t][2] == k):
+                    p = acrossBeginningInfo[t][0]
+                    q = acrossBeginningInfo[t][1]
+            temp = "-1"
+            for x in range(q,5):
+                acrossBeginIndex, acrossDistance, downBeginIndex, downDistance, temp = intersectionInfo[p, x]
 
-        for j in range(len(newAcross[acrossBeginIndex])):
-            for k in range(len(newDown[downBeginIndex])):
-                if(newAcross[acrossBeginIndex][j][acrossDistance] == newDown[downBeginIndex][k][downDistance]):
-                    print(newAcross[acrossBeginIndex][j], " ", newDown[downBeginIndex][k])
-                    possibleMatches.append((newAcross[acrossBeginIndex][j], newDown[downBeginIndex][k]))
+                for i in range(len(newAcross[acrossBeginIndex])):
+                    for j in range(len(newDown[downBeginIndex])):
+                        if(newAcross[acrossBeginIndex][i][acrossDistance] == newDown[downBeginIndex][j][downDistance]):
+                            print(newAcross[acrossBeginIndex][i], " ", newDown[downBeginIndex][j])
+                            possibleMatches.append((newAcross[acrossBeginIndex][i], newDown[downBeginIndex][j]))
+                            for y in range(0,5):
+                                if(downBeginningInfo[y][2] == downBeginIndex):
+                                    a = downBeginningInfo[y][0]
+                                    b = downBeginningInfo[y][1]
+
+                                print()
+
+                            newMatchPossibility = ((p,q), newAcross[acrossBeginIndex][i], (a,b), newDown[downBeginIndex][j])
 
 
-        #print()
+
+
+                            compareAnswerCandidatesNewIteration(newAcross, newDown, intersectionInfo, newMatchPossibility)
+
+
 
     print()
     return
 
+
+def compareAnswerCandidatesNewIteration(newAcross, newDown, intersectionInfo, newMatchPossibility):
+
+    print(newMatchPossibility)
+    newIntersectionInfo = copy.deepcopy(intersectionInfo)
+    for i in range(len(newMatchPossibility[1])):
+        print()
+
+
+
+    return
 
 # list to store answers to check length
 acrossBeginningInfo = []
