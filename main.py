@@ -441,6 +441,9 @@ def main():
     across = [0]*10
     down = [0]*10
 
+    Nacross = [0] * 10
+    Ndown = [0] * 10
+
     for i in range(len(down)):
         for j in range(len(nfinDown)):
             if(nfinDown[j][0] == i):
@@ -451,7 +454,16 @@ def main():
             if(nfinAcross[j][0] == i):
                 across[i] = nfinAcross[j][1]
 
+    for i in range(len(acrossBeginningInfo)):
+        print()
 
+
+
+    print("across")
+    print(across)
+
+    print("down")
+    print(down)
 
     print()
 
@@ -494,14 +506,19 @@ def main():
     for i in range (len(horiz_clue)):
         print(horiz_clue[i].getText(), " ---> ")
         rowNo = findCellWithNoReturnRow(matrix,horiz_clue[i].getText()[0])
-         
+        nl = []
+
         for j in range(0,5):
             if(str(matrix[rowNo, j].letter) != " "):
-                 L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*PUZZLE_SIDE_LENGTH+25,  y = i*PUZZLE_SIDE_LENGTH+20)
+                L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*PUZZLE_SIDE_LENGTH+25,  y = i*PUZZLE_SIDE_LENGTH+20)
+                #
+            #Nacross[rowNo] = nl
             print (matrix[rowNo, j].letter,  "")
         print("")
     A = "KEYS" #across 5
     B = "KEYS"
+
+
 
     #resDataMuse2 = search.detailedSearchDataMuse("What a black three-leaf clover represents","?lu?")
     #resDataMuse2 = search.detailedSearchDataMuse("mayb?")
@@ -511,6 +528,15 @@ def main():
 
     # calling detailed search method example
     #callSearch(True,across[6])
+    print()
+    print()
+    print()
+
+    print("across")
+    print(across)
+
+    print("down")
+    print(down)
 
     mainloop()
     
