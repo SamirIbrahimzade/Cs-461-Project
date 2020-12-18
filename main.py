@@ -99,7 +99,7 @@ def findIntersectedCells(matrix, acrossBeginningInfo, downBeginningInfo):
     for i in range(0,5):
         for j in range(0,5):
             if(int(matrix[i,j].number) < 0):    # if current cell is black
-                result[i,j] = (-1,-1,-1,-1)
+                result[i,j] = (-1,-1,-1,-1,"-1")
             else:
                 for p in range(len(acrossBeginningInfo)):
                     if(acrossBeginningInfo[p][0] == i):
@@ -184,7 +184,7 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
 
                                 print()
 
-                            newMatchPossibility = ((p,q), newAcross[acrossBeginIndex][i], (a,b), newDown[downBeginIndex][j])
+                            newMatchPossibility = ((p,q), newAcross[acrossBeginIndex][i], (a,b), newDown[downBeginIndex][j], (acrossBeginIndex,downBeginIndex))
 
 
 
@@ -200,10 +200,33 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
 def compareAnswerCandidatesNewIteration(newAcross, newDown, intersectionInfo, newMatchPossibility):
 
     print(newMatchPossibility)
-    newIntersectionInfo = copy.deepcopy(intersectionInfo)
-    for i in range(len(newMatchPossibility[1])):
-        print()
+    # newIntersectionInfo = copy.deepcopy(intersectionInfo)
+    # for i in range(newMatchPossibility[0][1],len(newMatchPossibility[1])):
+    #     x = newMatchPossibility[0][0]
+    #     newIntersectionInfo[x,i][4] = newMatchPossibility[1][i]
 
+    # for i in range(len(newAcross)):
+    #     if(len(newAcross[i]) > 0):
+    #         for j in range(len(newAcross[i])):
+    #             #print(newAcross[i][j])
+    #             for k in range(len(newAcross[i][j])):
+    #                 x = newMatchPossibility[0][0]
+    #                 y = newMatchPossibility[0][1]
+    #                 nfinAcross.append((newAcross[i][j][k], (j,k)))
+    #
+    # for i in range(len(newDown)):
+    #     if(len(newDown[i]) > 0):
+    #         for j in range(len(newDown[i])):
+    #             #print(newAcross[i][j])
+    #             for k in range(len(newDown[i][j])):
+    #                 x = newMatchPossibility[0][0]
+    #                 y = newMatchPossibility[0][1]
+    #                 nfinDown.append((newDown[i][j][k], (j,k)))
+
+    nfinAcross.append((newMatchPossibility[4][0],newMatchPossibility[1]))
+    nfinDown.append((newMatchPossibility[4][1], newMatchPossibility[3]))
+
+    print()
 
 
     return
@@ -211,6 +234,11 @@ def compareAnswerCandidatesNewIteration(newAcross, newDown, intersectionInfo, ne
 # list to store answers to check length
 acrossBeginningInfo = []
 downBeginningInfo = []
+
+finAcross = [[]] * 10
+finDown = [[]] * 10
+nfinAcross = []
+nfinDown = []
 
 acrossLengths = [0,0,0,0,0]
 downLengths = [0,0,0,0,0]
@@ -404,20 +432,43 @@ def main():
 
     print("Printing answers to the both gui and terminal")
 
+
+
+
+
+
+
     across = [0]*10
     down = [0]*10
 
-    across[1] = ('C',(0,1) ), ('L',(0,2) ), ('U',(0,3) ), ('B',(0,4) )
-    across[5] = ('L',(1,1) ), ('A',(1,2) ), ('N',(1,3) ), ('E',(1,4) )
-    across[6] = ('M',(2,0) ), ('A',(2,1) ), ('Y',(2,2) ), ('B',(2,3) ), ('E',(2,4) )
-    across[7] = ('O',(3,0) ), ('R',(3,1) ), ('E',(3,2) ), ('O',(3,3) )
-    across[8] = ('M',(4,0) ), ('A',(4,1) ), ('R',(4,2) ), ('X',(4,3) )
+    for i in range(len(down)):
+        for j in range(len(nfinDown)):
+            if(nfinDown[j][0] == i):
+                down[i] = nfinDown[j][1]
 
-    down[1] = ('C',(0,0) ), ('L',(1,0) ), ('A',(2,0) ), ('R',(3,0) ), ('A',(4,0) )
-    down[2] = ('L',(0,1) ), ('A',(1,1) ), ('Y',(2,1) ), ('E',(3,1) ), ('R',(4,1) )
-    down[3] = ('U',(0,2) ), ('N',(1,2) ), ('B',(2,2) ), ('O',(3,2) ), ('X',(4,2) )
-    down[4] = ('B',(0,3) ), ('E',(1,3) ), ('E',(2,3) )
-    down[6] = ('M',(2,4) ), ('O',(3,4) ), ('M',(4,4) )
+    for i in range(len(across)):
+        for j in range(len(nfinAcross)):
+            if(nfinAcross[j][0] == i):
+                across[i] = nfinAcross[j][1]
+
+
+
+    print()
+
+
+
+
+    # across[1] = ('C',(0,1) ), ('L',(0,2) ), ('U',(0,3) ), ('B',(0,4) )
+    # across[5] = ('L',(1,1) ), ('A',(1,2) ), ('N',(1,3) ), ('E',(1,4) )
+    # across[6] = ('M',(2,0) ), ('A',(2,1) ), ('Y',(2,2) ), ('B',(2,3) ), ('E',(2,4) )
+    # across[7] = ('O',(3,0) ), ('R',(3,1) ), ('E',(3,2) ), ('O',(3,3) )
+    # across[8] = ('M',(4,0) ), ('A',(4,1) ), ('R',(4,2) ), ('X',(4,3) )
+    #
+    # down[1] = ('C',(0,0) ), ('L',(1,0) ), ('A',(2,0) ), ('R',(3,0) ), ('A',(4,0) )
+    # down[2] = ('L',(0,1) ), ('A',(1,1) ), ('Y',(2,1) ), ('E',(3,1) ), ('R',(4,1) )
+    # down[3] = ('U',(0,2) ), ('N',(1,2) ), ('B',(2,2) ), ('O',(3,2) ), ('X',(4,2) )
+    # down[4] = ('B',(0,3) ), ('E',(1,3) ), ('E',(2,3) )
+    # down[6] = ('M',(2,4) ), ('O',(3,4) ), ('M',(4,4) )
 
     print("Down")
     for i in range (len(across_clue)):
@@ -428,16 +479,16 @@ def main():
             print( matrix[j,colNo].letter, end = "" )
         print("")
 
-    print(across[5][2])
-    index = 0
-    for i in range(10):
-        if(across[i] != 0):
-            for j in range(5):
-                try:
-                    L = Label(newPuzzleGrid, text=str(across[i][j][0]),font = "Times 42 bold").place(x = across[i][j][1][1]*PUZZLE_SIDE_LENGTH+25,  y = across[i][j][1][0]*PUZZLE_SIDE_LENGTH+20)
-                except:
-                    pass
-                index = index + 1
+    # print(across[5][2])
+    # index = 0
+    # for i in range(10):
+    #     if(across[i] != 0):
+    #         for j in range(5):
+    #             try:
+    #                 L = Label(newPuzzleGrid, text=str(across[i][j][0]),font = "Times 42 bold").place(x = across[i][j][1][1]*PUZZLE_SIDE_LENGTH+25,  y = across[i][j][1][0]*PUZZLE_SIDE_LENGTH+20)
+    #             except:
+    #                 pass
+    #             index = index + 1
 
     print("\nAcross")
     for i in range (len(horiz_clue)):
