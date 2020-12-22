@@ -47,14 +47,14 @@ def closeDriver():
 def getAnswers():
 
     options = Options()
-    #options.headless = True
+    options.headless = True
     options.add_argument("--window-size=800,600")
 
     driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
     # old https://www.nytimes.com/crosswords/game/mini/2016/06/01
     # uptodate https://www.nytimes.com/crosswords/game/mini
     driver.get("https://www.nytimes.com/crosswords/game/mini")
-    sleepTime = 1.5
+    sleepTime = 0.5
     print("Connected to the https://www.nytimes.com/crosswords/game/mini")
     print("Waiting time between requests is " + str(sleepTime) + " seconds")
     print("Waiting " + str(sleepTime) + " seconds")

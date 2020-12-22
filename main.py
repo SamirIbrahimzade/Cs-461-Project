@@ -38,9 +38,10 @@ def getDate():
     return today
 
 def addAcrossCluesCnv(canvas, acClues, acIndexes):
+
     L = Label(canvas, text="Across Clues",fg="red",font = "Verdana 10 bold")
     L.pack()
-    
+
     for i in range(len(acClues)):
          L = Label(canvas, text=acIndexes[i].text + ") " + acClues[i].text)
          L.pack()
@@ -161,7 +162,8 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
                 newDown[i] = down[j]
 
     possibleMatches = []
-
+    #return newAcross, newDown
+    
     for k in range(len(newAcross)):
         if(len(newAcross[k]) > 0 ):
             for t in range(0,5):
@@ -188,14 +190,14 @@ def compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo):
 
 
 
-
+    
                             compareAnswerCandidatesNewIteration(newAcross, newDown, intersectionInfo, newMatchPossibility)
-
-
+    
+    
 
     print()
     return
-
+    
 
 def compareAnswerCandidatesNewIteration(newAcross, newDown, intersectionInfo, newMatchPossibility):
 
@@ -288,26 +290,26 @@ def main():
     #     print(resGoogle[i])
     
 
-    print("\n\ndatamuse")
-    for i in range(len(resDataMuse)):
-        print(resDataMuse[i])
+    #print("\n\ndatamuse")
+    #for i in range(len(resDataMuse)):
+    #    print(resDataMuse[i])
 
     # print("\n\nmerriam")
     # for i in range(len(resMerriam)):
     #     print(resMerriam[i])
 
-    # print("\n\nrevDict")
+    #print("\n\nrevDict")
     # for i in range(len(resRevDict)):
     #     print(resMerriam[i])
 
     print("datamuse ", resDataMuse[0] )
     
     
-    # finList = [[]]*(len(acrossClues)+len(downClues))
+    finList = [[]]*(len(acrossClues)+len(downClues))
     #
-    # for i in range (len(acrossClues)+len(downClues)):
-    #     finList[i] = resDataMuse[i] + resMerriam[i]+ resRevDict[i]
-    # print(finList)
+    for i in range (len(acrossClues)+len(downClues)):
+         finList[i] = resDataMuse[i] #+ resRevDict[i] + resMerriam[i]
+    print(finList)
 
 
     ############################################################################################################
@@ -378,6 +380,7 @@ def main():
     #     for j in range (0,5):
     #         print(intersectionInfo[i,j])
 
+    #na,nd = 
     compareAnswerCandidatesFirstIteration(resDataMuse, intersectionInfo)
 
 
@@ -430,12 +433,9 @@ def main():
     addAcrossCluesCnv(cluesCnv,acrossClues,acrossIndexes)
     addDownCluesCnv(cluesCnv,downClues,downIndexes)
 
+
+
     print("Printing answers to the both gui and terminal")
-
-
-
-
-
 
 
     across = [0]*10
@@ -443,6 +443,9 @@ def main():
 
     Nacross = [0] * 10
     Ndown = [0] * 10
+
+    #print(na,"\n\n\n",nd,"\n\n\n")
+    print(nfinAcross,nfinDown)
 
     for i in range(len(down)):
         for j in range(len(nfinDown)):
@@ -457,8 +460,9 @@ def main():
     for i in range(len(acrossBeginningInfo)):
         print()
 
-
-
+    print("Across info",acrossBeginningInfo)
+    print("Down info",downBeginningInfo)
+    
     print("across")
     print(across)
 
@@ -466,6 +470,38 @@ def main():
     print(down)
 
     print()
+
+    for i in range(0, 5):
+        ind = 0
+        for j in range(0, 5):
+
+            #add label inside boxes
+            print(matrix[j,i].number)
+            if(matrix[j,i].number != -8):
+                word = down[downBeginningInfo[i][2]]
+                print(word)
+                if(word != 0):
+                    
+                    L = Label(newPuzzleGrid, text=str(word[ind]).upper(),font = "Times 42 bold").place(x = i*PUZZLE_SIDE_LENGTH+25,  y = j*PUZZLE_SIDE_LENGTH+20)
+                    ind = ind + 1
+
+    for i in range(0, 5):
+        ind = 0
+        for j in range(0, 5):
+
+            #add label inside boxes
+            if(matrix[i,j].number != -8):
+                word = across[acrossBeginningInfo[i][2]]
+                
+                if(word != 0):
+                    
+                    L = Label(newPuzzleGrid, text=str(word[ind].upper()),font = "Times 42 bold").place(x = j*PUZZLE_SIDE_LENGTH+25,  y = i*PUZZLE_SIDE_LENGTH+20)
+                    ind = ind + 1
+
+
+
+
+
 
 
 
@@ -511,13 +547,17 @@ def main():
         for j in range(0,5):
             if(str(matrix[rowNo, j].letter) != " "):
                 L = Label(puzzleGrid, text=str(matrix[rowNo, j].letter),font = "Times 42 bold").place(x = j*PUZZLE_SIDE_LENGTH+25,  y = i*PUZZLE_SIDE_LENGTH+20)
-                #
+                ans = ('',(i,j) )
+                nl.append(ans)
+            Nacross[rowNo] = nl 
             #Nacross[rowNo] = nl
-            print (matrix[rowNo, j].letter,  "")
+            print (matrix[rowNo, j].number,  "*********\n")
+            print (rowNo,"************\n")
         print("")
     A = "KEYS" #across 5
     B = "KEYS"
 
+    print(Nacross)
 
 
     #resDataMuse2 = search.detailedSearchDataMuse("What a black three-leaf clover represents","?lu?")
