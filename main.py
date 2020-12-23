@@ -39,21 +39,18 @@ def getDate():
 
 def addAcrossCluesCnv(canvas, acClues, acIndexes):
 
-    L = Label(canvas, text="Across Clues",fg="red",font = "Verdana 10 bold")
-    L.pack()
+    L = Label(canvas, text="Across Clues",fg="red",font = "Verdana 10 bold", anchor='w').pack(fill='both')
+
 
     for i in range(len(acClues)):
-         L = Label(canvas, text=acIndexes[i].text + ") " + acClues[i].text)
-         L.pack()
+         L = Label(canvas, text=acIndexes[i].text + ") " + acClues[i].text, anchor='w').pack(fill='both')
     print()
 
 def addDownCluesCnv(canvas,dwClues,dwIndexes):
-    L = Label(canvas, text="Down Clues",fg="red",font = "Verdana 10 bold")
-    L.pack()
+    L = Label(canvas, text="Down Clues",fg="red",font = "Verdana 10 bold", anchor='w').pack(fill='both')
 
     for i in range(len(dwClues)):
-         L = Label(canvas, text=dwIndexes[i].text + ") " + dwClues[i].text)
-         L.pack()
+         L = Label(canvas, text=dwIndexes[i].text + ") " + dwClues[i].text, anchor='w').pack(fill='both')
     print()
 
 def findCellWithNoReturnCol( matrix, x ):
