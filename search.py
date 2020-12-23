@@ -64,7 +64,7 @@ def searchDataMuse(acClues,acIndexes,dnClues,dnIndexes):
 
         tList = []
         #for j in range(len(respond)):
-        for j in range(len(respond)):
+        for j in range(min(5,len(respond))):
             tList.append(respond[j]['word'])
         resList.append(tList)
 

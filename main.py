@@ -480,7 +480,7 @@ def main():
             if(matrix[j,i].number != -8):
                 word = down[downBeginningInfo[i][2]]
                 print(word)
-                if(word != 0):
+                if(word != 0 and (ind < len(word))):
                     
                     L = Label(newPuzzleGrid, text=str(word[ind]).upper(),font = "Times 42 bold").place(x = i*PUZZLE_SIDE_LENGTH+25,  y = j*PUZZLE_SIDE_LENGTH+20)
                     ind = ind + 1
