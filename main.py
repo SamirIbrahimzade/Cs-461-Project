@@ -39,7 +39,7 @@ def getDate():
 
 def addAcrossCluesCnv(canvas, acClues, acIndexes):
 
-    L = Label(canvas, text="Across Clues",fg="red",font = "Verdana 10 bold", anchor='w').pack(fill='both')
+    L = Label(canvas, text="Across Clues",fg="red",font = "Verdana 10 bold").pack(fill='both')
 
 
     for i in range(len(acClues)):
@@ -47,7 +47,7 @@ def addAcrossCluesCnv(canvas, acClues, acIndexes):
     print()
 
 def addDownCluesCnv(canvas,dwClues,dwIndexes):
-    L = Label(canvas, text="Down Clues",fg="red",font = "Verdana 10 bold", anchor='w').pack(fill='both')
+    L = Label(canvas, text="Down Clues",fg="red",font = "Verdana 10 bold").pack(fill='both')
 
     for i in range(len(dwClues)):
          L = Label(canvas, text=dwIndexes[i].text + ") " + dwClues[i].text, anchor='w').pack(fill='both')
