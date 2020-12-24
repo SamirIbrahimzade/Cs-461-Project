@@ -17,7 +17,9 @@ class matrix_cell:
         self.number = number
         self.letter = letter
 
-PUZZLE_URL = "https://www.nytimes.com/crosswords/game/mini/"
+# old https://www.nytimes.com/crosswords/game/mini/2016/06/01
+# uptodate https://www.nytimes.com/crosswords/game/mini
+PUZZLE_URL = "https://www.nytimes.com/crosswords/game/mini"
 PUZZLE_SIDE_LENGTH = 100
 
 def showAcrossClues(acClues,acIndexes):
@@ -345,7 +347,7 @@ def main():
 
     print()
     print("Starting the process of retrieving answers !")
-    matrix, across_clue, horiz_clue = scraper.getAnswers()
+    matrix, across_clue, horiz_clue = scraper.getAnswers(PUZZLE_URL)
 
     # getting indexes of answer beginnings and storing them
     for i in range(len(acrossIndexes)):

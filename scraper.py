@@ -44,16 +44,14 @@ def closeDriver():
     return
    
 
-def getAnswers():
+def getAnswers(PUZZLE_URL):
 
     options = Options()
     options.headless = True
     options.add_argument("--window-size=800,600")
 
     driver = webdriver.Chrome(options=options, executable_path=DRIVER_PATH)
-    # old https://www.nytimes.com/crosswords/game/mini/2016/06/01
-    # uptodate https://www.nytimes.com/crosswords/game/mini
-    driver.get("https://www.nytimes.com/crosswords/game/mini")
+    driver.get(PUZZLE_URL)
     sleepTime = 0.5
     print("Connected to the https://www.nytimes.com/crosswords/game/mini")
     print("Waiting time between requests is " + str(sleepTime) + " seconds")
@@ -80,7 +78,7 @@ def getAnswers():
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/article/div[2]/button[2]/div/span").click()
 
     print("Waiting " + str(sleepTime) + " seconds")
-    time.sleep(sleepTime*2)
+    time.sleep(sleepTime*3)
     print("----------------Clicking to the CLOSE POP UP button----------------")
     driver.find_element_by_xpath("/html/body/div[1]/div/div[2]/div[2]/span").click()
 
